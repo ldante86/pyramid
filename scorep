@@ -1,0 +1,3 @@
+#!/bin/bash -
+
+exec topscores ~/.pyramid/pyramid-scores "$@"

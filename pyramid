@@ -1,0 +1,89 @@
+#!/bin/bash -
+#
+# SCRIPT: pyramid
+# AUTHOR: Luciano D. Cecere
+# DATE: 09/04/2015-09:43:05 PM
+#
+########################################################################
+#
+# pyramid - a solitaire game, sometimes called "thirteen"
+# Copyright (C) 2015 Luciano D. Cecere <ldante86@aol.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+########################################################################
+
+export PATH=/bin:/usr/bin
+unalias -a
+
+set -e
+. globals.sh
+. hint.sh
+. process.sh
+. utils.sh
+set +e
+
+while [ $# -gt 0 ]
+do
+  case $1 in
+    -c)
+      if [ -d ${PYRAMID_DIR} ]; then
+        >${PYRAMID_DIR}/${SCORE_FILE}
+        echo Score file cleared
+        _exit 0
+      else
+        echo ${PYRAMID_DIR} does not exist
+        _exit 1
+      fi
+      ;;
+    -d)  DEBUG=1 ;;
+    -h)  _help   ;;
+    -n)  unset SHOW_INDEX ;;
+    $MODE_1|hard)
+      GAME_MODE=1
+      MODE=hard
+      ;;
+    $MODE_0|easy)  : ;;
+    -s)
+      if [ -d ${PYRAMID_DIR} ]; then
+        cat ${PYRAMID_DIR}/${SCORE_FILE}
+        _exit 0
+      else
+        echo No score file found
+       _exit 1
+      fi
+      ;;
+    --no-splash)
+      _splash() { :; } ;;
+    -*|*)
+      echo "Invalid flag \"${1}\""
+      _exit 1
+      ;;
+  esac
+  shift
+done
+
+trap '_game_over 3' INT
+
+_load_deck
+_splash
+_assemble_pyramid
+
+while clear
+do
+  _uncover_cards
+  _load_index
+  _draw_pyramid
+  _process_move
+done

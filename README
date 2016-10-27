@@ -1,0 +1,66 @@
+PROGRAM: pyramid.sh - a solitaire game
+AUTHOR: Luciano D. Cecere
+LICENSE: GPLv2
+
+USAGE: pyramid.sh [option]
+
+OPTIONS:
+  easy		easy mode: the draw pile loops (default)
+  hard		hard mode: the draw pile passes once
+  -c		clear score file
+  -d		debug mode - can be turned off in game
+  -h		view help screen and exit
+  -n		suppress coordinate list
+  -s		view score file
+  --no-splash	Do not show spash screen
+
+In-game commands:
+  ? | h	hint
+  q | ctrl-c	quit
+  n		new game
+  d		debug on
+  f		debug off
+  i		show coordinates on
+  o		show coordinates off
+
+GAMEPLAY
+  The object of this game is to uncover all the cards (#)
+  in the pyramid. A card is uncovered when two selected cards
+  equal 13.
+
+  Cards may be selected two ways:
+    1) by selecting the number of the corresponding card from
+       the list, or
+    2) by selecting the coordinate of the card - i.e. g22, etc.
+       These methods may be mixed.
+
+  Face card values are:
+    A = 1
+    T = 10
+    J = 11
+    Q = 12
+    K = 13
+
+  Scoring: two cards equalling 13 is two points; a King is one
+    point.
+
+  To remove a King from the pyramid, select only the King and
+  press enter.
+
+  To draw a card, press enter without any cards selected. To use
+  the draw card, type 'x' along with a card you with to pair it
+  with. If the draw card is a King, type 'x' and press enter.
+
+  The score file is located at ~/.pyramid/score
+
+ Coordinate chart:
+
+                   a1
+                 b2  b3
+               c4  c5  c6
+             d7  d8  d9  d10
+         e11  e12  e13  e14  e15
+      f16  f17  f18  f19  f20  f21
+    g22  g23  g24  g25  g26  g27  g28
+
+
